@@ -1,5 +1,6 @@
+Please note that this is a two-part series, and this is Part 2 of the implementation.
 
-https://medium.com/@miramnair/develop-and-deploy-a-serverless-rag-solution-with-amazon-bedrock-agents-knowledge-base-and-098c66f3b290
+Details : https://medium.com/@miramnair/develop-and-deploy-a-serverless-rag-solution-with-amazon-bedrock-agents-knowledge-base-and-098c66f3b290
 
 <img width="1247" alt="image" src="https://github.com/user-attachments/assets/2895ffcf-2960-4e43-8ae9-6cdcfa0bf0bb">
 
