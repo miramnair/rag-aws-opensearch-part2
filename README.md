@@ -1,4 +1,4 @@
-Please note that this is a two-part series, and this is Part 2 of the implementation.
+**Please note that this is a two-part series, and this is Part 2 of the implementation.**
 
 Details : https://medium.com/@miramnair/develop-and-deploy-a-serverless-rag-solution-with-amazon-bedrock-agents-knowledge-base-and-098c66f3b290
 
