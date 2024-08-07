@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "my-rag-app1"
+resolve_s3 = true
+s3_prefix = "my-rag-app1"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "IAMUserArn=\"arn:aws:iam::533267287698:user/cli-user-meera\" AOSSCollectionName=\"rag-sagemaker-kb\" AOSSIndexName=\"rag-sagemaker-readthedocs-io\""
+image_repositories = []

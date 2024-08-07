@@ -37,13 +37,6 @@ Resources:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
 
-  # Custom Resource for cleaning up the S3 bucket when the stack is deleted
-  cleanupBucketOnDelete:
-    Type: Custom::cleanupbucket
-    Properties:
-      ServiceToken: !GetAtt 'DeleteS3Bucket.Arn'
-      BucketName: !Ref S3Bucket
-    DependsOn: S3Bucket
 
   # IAM Role for Bedrock Knowledge Base with permissions to access S3 and OpenSearch
   AmazonBedrockExecutionRoleForKnowledgeBase:
@@ -102,9 +95,9 @@ Resources:
 
   # Lambda Function to delete all objects in the S3 bucket
   DeleteS3Bucket:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
-      Handler: app.delete_s3_lambda_handler
+      Handler: index.lambda_handler
       Description: "Delete all objects in S3 bucket"
       Timeout: 30
       Role: !GetAtt 'LambdaBasicExecutionRole.Arn'
@@ -112,7 +105,35 @@ Resources:
       Environment:
         Variables:
           BUCKET_NAME: !Ref S3Bucket
-      CodeUri: ./hello_world/
+      Code:
+        ZipFile: |
+          import json, boto3, logging
+          import cfnresponse
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def lambda_handler(event, context):
+              logger.info("event: {}".format(event))
+              try:
+                  bucket = event['ResourceProperties']['BucketName']
+                  logger.info("bucket: {}, event['RequestType']: {}".format(bucket,event['RequestType']))
+                  if event['RequestType'] == 'Delete':
+                      s3 = boto3.resource('s3')
+                      bucket = s3.Bucket(bucket)
+                      for obj in bucket.objects.filter():
+                          logger.info("delete obj: {}".format(obj))
+                          s3.Object(bucket.name, obj.key).delete()
+
+                  sendResponseCfn(event, context, cfnresponse.SUCCESS)
+              except Exception as e:
+                  logger.info("Exception: {}".format(e))
+                  sendResponseCfn(event, context, cfnresponse.FAILED)
+
+          def sendResponseCfn(event, context, responseStatus):
+              responseData = {}
+              responseData['Data'] = {}
+              cfnresponse.send(event, context, responseStatus, responseData, "CustomResourcePhysicalID")   
+
 
   # Basic Execution Role for Lambda with permissions to access logs and S3
   LambdaBasicExecutionRole:

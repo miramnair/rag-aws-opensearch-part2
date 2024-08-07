@@ -1,38 +1,42 @@
 import json
-import boto3
-import logging
-import cfnresponse
-import os
+
+# import requests
 
 
-# Set up logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+def lambda_handler(event, context):
+    """Sample pure Lambda function
 
-def send_response_cfn(event, context, responseStatus):
-    responseData = {}
-    responseData['Data'] = {}
-    cfnresponse.send(event, context, responseStatus, responseData, "CustomResourcePhysicalID")
+    Parameters
+    ----------
+    event: dict, required
+        API Gateway Lambda Proxy Input Format
 
-# Lambda function to delete all objects in an S3 bucket
-def delete_s3_lambda_handler(event, context):
-    logger.info("event: {}".format(event))
-    try:
-        bucket = event['ResourceProperties']['BucketName']
-        logger.info("bucket: {}, event['RequestType']: {}".format(bucket, event['RequestType']))
-        if event['RequestType'] == 'Delete':
-            s3 = boto3.resource('s3')
-            bucket = s3.Bucket(bucket)
-            for obj in bucket.objects.filter():
-                logger.info("delete obj: {}".format(obj))
-                s3.Object(bucket.name, obj.key).delete()
+        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
 
-        send_response_cfn(event, context, cfnresponse.SUCCESS)
-    except Exception as e:
-        logger.info("Exception: {}".format(e))
-        send_response_cfn(event, context, cfnresponse.FAILED)
+    context: object, required
+        Lambda Context runtime methods and attributes
 
+        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
 
+    Returns
+    ------
+    API Gateway Lambda Proxy Output Format: dict
 
+        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+    """
 
+    # try:
+    #     ip = requests.get("http://checkip.amazonaws.com/")
+    # except requests.RequestException as e:
+    #     # Send some context about this error to Lambda Logs
+    #     print(e)
 
+    #     raise e
+
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "message": "hello world",
+            # "location": ip.text.replace("\n", "")
+        }),
+    }
