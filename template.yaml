@@ -10,7 +10,7 @@ Parameters:
 
   AOSSCollectionName:
     Description: Name of the Amazon OpenSearch Service Serverless (AOSS) collection.
-    Default: rag-sagemaker-kb
+    Default: rag-sagemaker-agent
     Type: String
     MinLength: 1
     MaxLength: 21
