@@ -10,7 +10,7 @@ Parameters:
 
   AOSSCollectionName:
     Description: Name of the Amazon OpenSearch Service Serverless (AOSS) collection.
-    Default: rag-sagemaker-agent
+    Default: rag-bedrock-kb
     Type: String
     MinLength: 1
     MaxLength: 21
@@ -19,7 +19,7 @@ Parameters:
 
   AOSSIndexName:
     Description: Name of the vector index in the Amazon OpenSearch Service Serverless (AOSS) collection.
-    Default: rag-sagemaker-readthedocs-io
+    Default: rag-bedrock-readthedocs-io
     Type: String
 
 Resources:
