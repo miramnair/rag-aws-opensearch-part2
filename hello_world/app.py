@@ -3,7 +3,6 @@ import boto3
 import logging
 import cfnresponse
 import os
-from PyPDF2 import PdfReader
 
 
 # Set up logging

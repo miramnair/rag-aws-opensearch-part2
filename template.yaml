@@ -198,32 +198,22 @@ Resources:
         {"Rules":[{"ResourceType":"collection","Resource":["collection/${AOSSCollectionName}"]}],"AWSOwnedKey":true}
 
 Outputs:
-  # Outputs provide information about resources after the stack is created
+# Outputs provide information about resources after the stack is created
   S3Bucket:
-    Description: The ARN of the S3 bucket
     Value: !GetAtt S3Bucket.Arn
-
   S3BucketName:
-    Description: The name of the S3 bucket
     Value: !Ref S3Bucket
-
   DashboardURL:
-    Description: The endpoint of the OpenSearch Dashboard
     Value: !GetAtt Collection.DashboardEndpoint
-
   AmazonBedrockExecutionRoleForKnowledgeBase:
-    Description: The ARN of the Bedrock Execution Role
     Value: !GetAtt AmazonBedrockExecutionRoleForKnowledgeBase.Arn
-
   CollectionARN:
-    Description: The ARN of the OpenSearch collection
     Value: !GetAtt Collection.Arn
+  AOSSVectorIndexName:
+    Description: vector index
+    Value: !Ref AOSSIndexName
+  Region:
+    Description: Deployed Region
+    Value: !Ref AWS::Region
 
-  FilesCopied:
-    Description: Number of files copied
-    Value: !GetAtt 'CustomSGResource.files_copied'
-
-  FileCopyError:
-    Description: Error encountered during file copy
-    Value: !GetAtt 'CustomSGResource.error'
-
+  
