@@ -1,3 +1,4 @@
 requests
 cfnresponse
 boto3
+logging
